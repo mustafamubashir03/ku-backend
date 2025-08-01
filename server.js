@@ -6,7 +6,7 @@ dotenv.config({
 })
 
 connectToDB().then(()=>{
-    httpServer.listen(process.env.PORT,()=>{
+    httpServer.listen(process.env.PORT || 3000,()=>{
         console.log("Server with Socket.IO is listening on port 3000")
     })
 }).catch((err)=>{
