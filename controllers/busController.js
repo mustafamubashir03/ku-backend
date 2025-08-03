@@ -216,7 +216,7 @@ export const activeBusDetails = async function (req, res) {
 };
 
 export const busRoutes = async function (req, res) {
-  const allRoutes = await STATION.find();
+  const allRoutes = await ROUTE.find();
 
   res.status(200).json({
     success: true,
