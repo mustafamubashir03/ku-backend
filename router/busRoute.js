@@ -1,10 +1,13 @@
 import express from "express"
 
 import { upload } from "../middlewares/multer.middleware.js"
-import {register,login,activeBus,updateBusDetails,activeBusDetails, busRoutes,getFeedBack,allFeedBack,searchFeedBack} from "../controllers/busController.js"
+import {register,login,activeBus,updateBusDetails,activeBusDetails, busRoutes,getFeedBack,allFeedBack,searchFeedBack, adminLogin} from "../controllers/busController.js"
 
 
 const router=express.Router()
+
+//route for admin login
+router.route("/admin").post(adminLogin)
 
 //route for register driver
 router.route("/register").post(upload.fields([{

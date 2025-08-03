@@ -36,7 +36,7 @@ const busSchema=new mongoose.Schema({
     busStatus:{
         type:String,
         enum:["active","notactive"],
-        default:"notactive"
+        default:"active"
     },
     photo:{
         secure_url:String,

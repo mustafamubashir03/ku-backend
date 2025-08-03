@@ -5,6 +5,37 @@ import cloudinary from "cloudinary";
 import { cache } from "../Cache/cache.js";
 import { FEEDBACK } from "../model/feedbackModel.js";
 import { uploadOnCloudinary } from "../cloudStorage.js";
+import ADMIN from "../model/adminModel.js";
+import jwt from "jsonwebtoken"
+
+
+export const adminLogin = async function (req, res) {
+
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      return res.status(400).json({ message: "Username and password required" });
+    }
+
+    const admin = await ADMIN.findOne({ username });
+    if (!admin || admin.password !== password) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    const token = jwt.sign(
+      { adminId: admin._id, username: admin.username },
+      process.env.JWT_SECRET,
+      { expiresIn: "2h" }
+    );
+
+    res.status(200).json({ token, message: "Login successful" });
+  } catch (error) {
+    console.error("Admin login error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 
 export const register = async function (req, res) {
   try {
@@ -185,7 +216,7 @@ export const activeBusDetails = async function (req, res) {
 };
 
 export const busRoutes = async function (req, res) {
-  const allRoutes = await SCHEMA.find().populate("stations");
+  const allRoutes = await STATION.find();
 
   res.status(200).json({
     success: true,
