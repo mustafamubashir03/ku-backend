@@ -105,24 +105,6 @@ import busRouter from "./router/busRoute.js"
 
 app.use("/api/v1",busRouter)
 
-app.post("/send-location", (req, res) => {
-  const { id, lat, lng } = req.body;
-
-  if (!id || !lat || !lng) {
-    return res.status(400).json({ error: "Missing fields" });
-  }
-
-  const data = { id, lat, lng };
-
-  // Cache the data (if needed)
-  cache.set(id, data);
-
-  // Emit via Socket.IO (same structure as your socket logic)
-  io.emit(`busLocation-${id}`, data);
-  console.log("📡 [HTTP] Emitted to busLocation-${id}:", data);
-
-  res.status(200).json({ message: "Location received", data });
-});
 
 export default httpServer
 
